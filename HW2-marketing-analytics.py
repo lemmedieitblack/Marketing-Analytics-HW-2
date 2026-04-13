@@ -8,6 +8,10 @@ import pandas as pd
 # ABSTRACT CLASS (DO NOT TOUCH)
 
 class Bandit(ABC):
+    """
+Abstract base class for multi-armed bandit algorithms.
+Defines the required interface for all bandit strategies.
+"""
 
     @abstractmethod
     def __init__(self, p):
@@ -37,6 +41,10 @@ class Bandit(ABC):
 # EPSILON GREEDY
 
 class EpsilonGreedy(Bandit):
+    """
+    Epsilon-Greedy algorithm for solving the multi-armed bandit problem.
+    Balances exploration and exploitation using a decaying epsilon.
+    """
 
     def __init__(self, p):
         self.p = p
@@ -52,9 +60,24 @@ class EpsilonGreedy(Bandit):
         return f"EpsilonGreedy Bandit with {self.k} arms"
 
     def pull(self, arm):
+        """
+        Pulls the selected bandit arm and returns a reward.
+
+        Args:
+            arm (int): Index of the chosen bandit.
+
+        Returns:
+            float: Reward sampled from the bandit's distribution.
+        """
         return np.random.normal(self.p[arm], 1)
 
     def update(self, arm, reward):
+        """
+        Updates the estimated value of the selected arm.
+        Args:
+            arm (int): Index of the chosen bandit.
+            reward (float): Observed reward.
+        """
         self.counts[arm] += 1
         n = self.counts[arm]
         value = self.values[arm]
@@ -63,6 +86,12 @@ class EpsilonGreedy(Bandit):
         self.values[arm] = ((n - 1) * value + reward) / n
 
     def experiment(self, trials=20000):
+        """
+        Runs the bandit experiment over a number of trials.
+
+        Args:
+            trials (int): Number of iterations (default: 20000).
+        """
         best = np.max(self.p)
 
         for t in range(1, trials + 1):
@@ -83,6 +112,9 @@ class EpsilonGreedy(Bandit):
             self.regret.append(regret if len(self.regret) == 0 else self.regret[-1] + regret)
 
     def report(self):
+        """
+        Saves results to CSV and logs total reward and regret.
+        """
         df = pd.DataFrame({
             "Bandit": np.arange(len(self.rewards)),
             "Reward": self.rewards,
@@ -98,6 +130,11 @@ class EpsilonGreedy(Bandit):
 # THOMPSON SAMPLING
 
 class ThompsonSampling(Bandit):
+
+    """
+    Thompson Sampling algorithm using a Bayesian approach.
+    Selects actions based on sampled reward distributions.
+    """
 
     def __init__(self, p):
         self.p = p
@@ -115,15 +152,37 @@ class ThompsonSampling(Bandit):
         return f"ThompsonSampling Bandit with {self.k} arms"
 
     def pull(self, arm):
+        """
+        Pulls the selected bandit arm and returns a reward.
+
+        Args:
+            arm (int): Index of the chosen bandit.
+
+        Returns:
+            float: Reward sampled from the bandit's distribution.
+        """
         return np.random.normal(self.p[arm], 1)
 
     def update(self, arm, reward):
+        """
+        Updates the Bayesian estimate (posterior approximation) for the selected arm.
+
+        Args:
+            arm (int): Index of the chosen bandit.
+            reward (float): Observed reward.
+        """
         self.lambda_[arm] += self.precision
         self.means[arm] = (
             (self.lambda_[arm] - self.precision) * self.means[arm] + self.precision * reward
         ) / self.lambda_[arm]
 
     def experiment(self, trials=20000):
+        """
+        Runs Thompson Sampling over a number of trials.
+
+        Args:
+            trials (int): Number of iterations (default: 20000).
+        """
         best = np.max(self.p)
 
         for t in range(trials):
@@ -140,6 +199,9 @@ class ThompsonSampling(Bandit):
             self.regret.append(regret if len(self.regret) == 0 else self.regret[-1] + regret)
 
     def report(self):
+        """
+        Saves results to CSV and logs total reward and regret.
+        """
         df = pd.DataFrame({
             "Bandit": np.arange(len(self.rewards)),
             "Reward": self.rewards,
@@ -155,8 +217,19 @@ class ThompsonSampling(Bandit):
 # VISUALIZATION
 
 class Visualization():
+    """
+    Handles visualization of cumulative rewards and regrets
+    for bandit algorithms comparison.
+    """
 
     def plot1(self, eg, ts):
+        """
+        Plots cumulative rewards for Epsilon-Greedy vs Thompson Sampling.
+
+        Args:
+            eg (EpsilonGreedy): Epsilon-Greedy algorithm instance.
+            ts (ThompsonSampling): Thompson Sampling instance.
+        """
         plt.figure()
         plt.plot(eg.rewards, label="Epsilon Greedy")
         plt.plot(ts.rewards, label="Thompson Sampling")
@@ -165,6 +238,13 @@ class Visualization():
         plt.show()
 
     def plot2(self, eg, ts):
+        """
+        Plots cumulative regret for Epsilon-Greedy vs Thompson Sampling.
+
+        Args:
+            eg (EpsilonGreedy): Epsilon-Greedy algorithm instance.
+            ts (ThompsonSampling): Thompson Sampling instance.
+        """
         plt.figure()
         plt.plot(eg.regret, label="Epsilon Greedy")
         plt.plot(ts.regret, label="Thompson Sampling")
@@ -176,6 +256,10 @@ class Visualization():
 # COMPARISON
 
 def comparison():
+    """
+    Runs both Epsilon-Greedy and Thompson Sampling experiments
+    and visualizes their performance comparison.
+    """
     Bandit_Reward = [1, 2, 3, 4]
 
     eg = EpsilonGreedy(Bandit_Reward)
