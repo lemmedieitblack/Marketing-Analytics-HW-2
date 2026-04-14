@@ -7,21 +7,18 @@
   - Epsilon-Greedy (ε = 1/t)
   - Thompson Sampling (known precision)
 
----
 
 ## 1. Learning Process Visualization
 The learning process for both algorithms is visualized using cumulative reward plots.
 
 > Insert plot1() screenshot here
 
----
 
 ## 2. Cumulative Rewards Comparison
 The cumulative rewards of Epsilon-Greedy and Thompson Sampling are plotted together for comparison.
 
 > Insert combined reward plot here
 
----
 
 ## 3. CSV Storage
 The rewards are stored in CSV files with the following format:
@@ -38,14 +35,12 @@ The rewards are stored in CSV files with the following format:
 - **Epsilon-Greedy:** 80045.37  
 - **Thompson Sampling:** 80027.68  
 
----
 
 ## 5. Cumulative Regret
 
 - **Epsilon-Greedy:** 7  
 - **Thompson Sampling:** 50  
 
----
 
 ## Conclusion
 - Epsilon-Greedy achieved a slightly higher cumulative reward in this run.
