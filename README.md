@@ -11,13 +11,14 @@
 ## 1. Learning Process Visualization
 The learning process for both algorithms is visualized using cumulative reward plots.
 
-> Insert plot1() screenshot here
+<img width="952" height="708" alt="image" src="https://github.com/user-attachments/assets/867b976c-5ef0-4eb6-8443-00d8b90e04f3" />
 
 
 ## 2. Cumulative Rewards Comparison
 The cumulative rewards of Epsilon-Greedy and Thompson Sampling are plotted together for comparison.
 
-> Insert combined reward plot here
+<img width="954" height="701" alt="image" src="https://github.com/user-attachments/assets/89fbe870-f3fa-4782-aa46-a0a5ac37a640" />
+
 
 
 ## 3. CSV Storage
@@ -28,7 +29,6 @@ The rewards are stored in CSV files with the following format:
   - `epsilon_greedy.csv`
   - `thompson_sampling.csv`
 
----
 
 ## 4. Cumulative Reward
 
