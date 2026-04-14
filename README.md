@@ -14,8 +14,8 @@ The learning process for both algorithms is visualized using cumulative reward p
 <img width="952" height="708" alt="image" src="https://github.com/user-attachments/assets/867b976c-5ef0-4eb6-8443-00d8b90e04f3" />
 
 
-## 2. Cumulative Rewards Comparison
-The cumulative rewards of Epsilon-Greedy and Thompson Sampling are plotted together for comparison.
+## 2. Performance Comparison
+The performance of Epsilon-Greedy and Thompson Sampling is compared using cumulative regret over time.
 
 <img width="954" height="701" alt="image" src="https://github.com/user-attachments/assets/89fbe870-f3fa-4782-aa46-a0a5ac37a640" />
 
